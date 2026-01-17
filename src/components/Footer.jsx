@@ -1,9 +1,5 @@
 function Footer() {
-  return (
-    <footer>
-      <p>Feito com React</p>
-    </footer>
-  );
+  return <p>Feito com React</p>;
 }
 
 export default Footer;

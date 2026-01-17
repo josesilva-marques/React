@@ -1,16 +1,13 @@
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Card from "./components/Card";
 
 function App() {
   return (
     <>
-      <Header />
-      <ul>
-        <li>Aprender React</li>
-        <li>Criar componentes</li>
-        <li>Treinar todo dia</li>
-      </ul>
-      <Footer />
+      <Card
+        titulo="Primeiro Card"
+        descricao="Esse é meu primeiro card em React"
+      />
+      <Card titulo="Segundo Card" descricao="Estou aprendendo props" />
     </>
   );
 }
