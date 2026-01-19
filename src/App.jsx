@@ -1,9 +1,8 @@
-import Evento from "./components/Evento";
-
+import Lista from "./components/Lista";
 function App() {
   return (
     <>
-      <Evento />
+      <Lista />
     </>
   );
 }
