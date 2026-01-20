@@ -1,8 +1,9 @@
-import Lista from "./components/Lista";
+import Tarefas from "./components/Tarefas";
+
 function App() {
   return (
     <>
-      <Lista />
+      <Tarefas />
     </>
   );
 }
