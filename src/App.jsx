@@ -1,27 +1,26 @@
 import { useState, useEffect } from "react";
 
 function App() {
-  console.log("Componente renderizou");
-
-  const [nome, setNome] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
-    console.log("2️⃣ useEffect SEM dependências (página abriu)");
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((data) => setUsuarios(data))
+      .catch((error) => console.error("Error fetching users:", error));
   }, []);
 
-  useEffect(() => {
-    console.log("3️⃣ useEffect COM dependência: nome mudou →", nome);
-  }, [nome]);
+  console.log(usuarios);
 
   return (
     <div>
-      <h2>Entendendo quando o codigo roda</h2>
-      <input
-        type="text"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        placeholder="Digite algo"
-      />
+      <h1>Lista de Usuarios</h1>
+      {usuarios.map((usuario) => (
+        <div key={usuario.id}>
+          <h2>{usuario.name}</h2>
+          <p>{usuario.email}</p>
+        </div>
+      ))}
     </div>
   );
 }
