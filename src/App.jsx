@@ -2,24 +2,34 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [usuarios, setUsuarios] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(false);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((data) => setUsuarios(data))
-      .catch((error) => console.error("Error fetching users:", error));
+      .then((res) => res.json())
+      .then((dados) => {
+        setUsuarios(dados);
+        setCarregando(false);
+      })
+      .catch(() => {
+        setErro(true);
+        setCarregando(false);
+      });
   }, []);
 
   console.log(usuarios);
-
+  if (carregando) {
+    return <p>Carregando...</p>;
+  }
+  if (erro) {
+    return <p>Ocorreu um erro ao buscar os dados 😢.</p>;
+  }
   return (
     <div>
-      <h1>Lista de Usuarios</h1>
-      {usuarios.map((usuario) => (
-        <div key={usuario.id}>
-          <h2>{usuario.name}</h2>
-          <p>{usuario.email}</p>
-        </div>
+      <h1>Usuários</h1>
+      {usuarios.map((user) => (
+        <p key={user.id}>{user.name}</p>
       ))}
     </div>
   );
