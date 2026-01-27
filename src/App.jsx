@@ -1,23 +1,43 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
-import Sobre from "./pages/Sobre";
-import Contato from "./pages/Contato";
+import { useState } from "react";
+import Header from "./ui/Header";
+import FormContato from "./ui/FormContato";
+import ListaContatos from "./ui/ListaContatos";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/sobre">Sobre</Link> |{" "}
-        <Link to="/contato">Contato</Link>
-      </nav>
+  const [contatos, setContatos] = useState([]);
+  const [nome, setNome] = useState("");
+  const [telefone, setTelefone] = useState("");
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sobre" element={<Sobre />} />
-        <Route path="/contato" element={<Contato />} />
-      </Routes>
-    </BrowserRouter>
+  function adicionarContato(e) {
+    e.preventDefault();
+
+    const novoContato = {
+      id: Date.now(),
+      nome,
+      telefone,
+    };
+
+    setContatos([...contatos, novoContato]);
+    setNome("");
+    setTelefone("");
+  }
+
+  function removerContato(id) {
+    setContatos(contatos.filter((c) => c.id !== id));
+  }
+
+  return (
+    <div>
+      <Header />
+      <FormContato
+        nome={nome}
+        telefone={telefone}
+        setNome={setNome}
+        setTelefone={setTelefone}
+        adicionarContato={adicionarContato}
+      />
+      <ListaContatos contatos={contatos} removerContato={removerContato} />
+    </div>
   );
 }
-
 export default App;
