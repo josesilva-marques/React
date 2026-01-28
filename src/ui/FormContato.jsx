@@ -6,7 +6,7 @@ function FormContato({
   adicionarContato,
 }) {
   return (
-    <form onSubmit={adicionarContato}>
+    <form onSubmit={adicionarContato} className="form-box">
       <input
         type="text"
         placeholder="Nome"
@@ -19,7 +19,9 @@ function FormContato({
         value={telefone}
         onChange={(e) => setTelefone(e.target.value)}
       />
-      <button type="submit">Adicionar</button>
+      <button type="submit" disabled={!nome}>
+        Adicionar
+      </button>
     </form>
   );
 }

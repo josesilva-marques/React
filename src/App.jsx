@@ -1,3 +1,4 @@
+import "./App.css";
 import { useState } from "react";
 import Header from "./ui/Header";
 import FormContato from "./ui/FormContato";
@@ -27,7 +28,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="container">
       <Header />
       <FormContato
         nome={nome}
