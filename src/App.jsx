@@ -1,44 +1,18 @@
-import "./App.css";
-import { useState } from "react";
-import Header from "./ui/Header";
-import FormContato from "./ui/FormContato";
-import ListaContatos from "./ui/ListaContatos";
+import Catalogo from "./ui/Catalogo";
+
+const produtos = [
+  { id: 1, nome: "camiseta", preco: 49.9 },
+  { id: 2, nome: "Bone", preco: 29.9 },
+  { id: 3, nome: "Tenis", preco: 199.9 },
+];
 
 function App() {
-  const [contatos, setContatos] = useState([]);
-  const [nome, setNome] = useState("");
-  const [telefone, setTelefone] = useState("");
-
-  function adicionarContato(e) {
-    e.preventDefault();
-
-    const novoContato = {
-      id: Date.now(),
-      nome,
-      telefone,
-    };
-
-    setContatos([...contatos, novoContato]);
-    setNome("");
-    setTelefone("");
-  }
-
-  function removerContato(id) {
-    setContatos(contatos.filter((c) => c.id !== id));
-  }
-
   return (
     <div className="container">
-      <Header />
-      <FormContato
-        nome={nome}
-        telefone={telefone}
-        setNome={setNome}
-        setTelefone={setTelefone}
-        adicionarContato={adicionarContato}
-      />
-      <ListaContatos contatos={contatos} removerContato={removerContato} />
+      <h1>Catálogo</h1>
+      <Catalogo produtos={produtos} />
     </div>
   );
 }
+
 export default App;

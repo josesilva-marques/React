@@ -1,46 +1,8 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-}
-.container {
-  max-width: 400px;
-  margin: 50px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-}
-
-form {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-  width: 100%;
-}
-input {
-  flex: 1;
-  padding: 8px;
-  box-sizing: border-box;
-}
-button {
-  padding: 8px 12px;
-  white-space: nowrap;
-}
-.form-box {
-  background: #f9f9f9;
-  padding: 10px;
-  border-radius: 6px;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
+.produto {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.produto button {
+  padding: 4px 8px;
 }
