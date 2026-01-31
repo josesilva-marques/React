@@ -3,20 +3,26 @@ import { useState } from "react";
 function Formulario() {
   const [nome, setNome] = useState("");
 
-  function enviarFormulario() {
-    alert("Você digitou: " + nome);
+  function handleChange(event) {
+    setNome(event.target.value);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+    alert(`Nome digitado: ${nome}`);
   }
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <h2>Formulário</h2>
+
       <input
         type="text"
         placeholder="Digite seu nome"
         value={nome}
-        onChange={(e) => setNome(e.target.value)}
+        onChange={handleChange}
       />
-      <button onClick={enviarFormulario}>Enviar</button>
-    </div>
+      <button type="submit">Enviar</button>
+    </form>
   );
 }
+
 export default Formulario;
