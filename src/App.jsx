@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CardProduto from "./components/CardProduto";
 
 function App() {
   const [produtos] = useState([
@@ -9,15 +10,18 @@ function App() {
 
   return (
     <div>
-      <h1>Lista de Produtos</h1>
-      <ul>
+      <h1>Catalógo de Produtos</h1>
+      <div style={{ display: "flex" }}>
         {produtos.map((produto) => (
-          <li key={produto.id}>
-            {produto.nome} - R$ {produto.preco}
-          </li>
+          <CardProduto
+            key={produto.id}
+            nome={produto.nome}
+            preco={produto.preco}
+          />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
+
 export default App;
