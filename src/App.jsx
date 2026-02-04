@@ -1,27 +1,35 @@
 import { useState } from "react";
 import CardProduto from "./components/CardProduto";
 
-function App() {
-  const [produtos] = useState([
-    { id: 1, nome: "Arroz", preco: 20 },
-    { id: 2, nome: "Feijão", preco: 10 },
-    { id: 3, nome: "Macarrão", preco: 8 },
-  ]);
 
+
+
+function App() {
+  const [carrinho, setCarrinho] = useState(0);
+
+function comprar(){
+  setCarrinho(carrinho + 1);
+}
+const produto = {
+  id: 1,
+  nome:"Tênis Nike",
+  preco: 299.90
+};
+    
   return (
     <div>
-      <h1>Catalógo de Produtos</h1>
-      <div style={{ display: "flex" }}>
-        {produtos.map((produto) => (
-          <CardProduto
-            key={produto.id}
-            nome={produto.nome}
-            preco={produto.preco}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
+    <h2>🛒 carrinho: {carrinho}</h2>
+    <button onClick={comprar}>Comprar</button>
+
+    <CardProduto
+      key={produto.id}
+      nome={produto.nome}
+      preco={produto.preco}
+      onComprar={comprar}
+      />
+     </div>   
+          
+        );
+      }
 
 export default App;
