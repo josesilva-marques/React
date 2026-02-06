@@ -2,6 +2,7 @@ import { useState } from "react";
 import CardProduto from "./components/CardProduto";
 
 function App() {
+  // states
   const [carrinho, setCarrinho] = useState(0);
   const produtos = [
     { id: 1, nome: "Arroz", preco: 20 },
@@ -9,9 +10,11 @@ function App() {
     { id: 3, nome: "Macarrão", preco: 8 },
   ];
 
+  // funções
   function comprar() {
     setCarrinho(carrinho + 1);
   }
+  // tela
   return (
     <div>
       <h1>Catálogo de Produtos</h1>
