@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardProduto from "./components/CardProduto";
 
 function App() {
@@ -9,6 +9,12 @@ function App() {
     { id: 2, nome: "Feijão", preco: 10 },
     { id: 3, nome: "Macarrão", preco: 8 },
   ];
+  useEffect(() => {
+    console.log("Página carregou");
+  }, []);
+  useEffect(() => {
+    console.log("Carrinho mudou:", carrinho);
+  }, [carrinho]);
 
   // funções
   function comprar() {
