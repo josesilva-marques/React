@@ -1,21 +1,14 @@
 import { useState } from "react";
+import ExibirNumero from "./ExibirNumero";
 
 function Contador() {
   const [numero, setNumero] = useState(0);
 
-  function aumentar() {
-    setNumero(numero + 1);
-  }
-  function diminuir() {
-    setNumero(numero - 1);
-  }
-
   return (
     <div>
-      <h2>Contador</h2>
-      <p>Número: {numero}</p>
-
-      <button onClick={aumentar}>+</button>
+      <ExibirNumero valor={numero} />
+      <p>Valor: {numero}</p>
+      <button onClick={() => setNumero(numero + 1)}>Aumentar</button>
       <button onClick={diminuir}>-</button>
     </div>
   );
