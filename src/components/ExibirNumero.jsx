@@ -1,4 +1,5 @@
-function ExibirNumero({ props }) {
-  return <p>O número recebido: {props.valor}</p>;
+function ExibirNumero({ numero }) {
+  return <h1>Valor atual: {numero}</h1>;
 }
+
 export default ExibirNumero;
