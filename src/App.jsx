@@ -1,32 +1,31 @@
-import { useState } from "react";
-import React, { useEffect } from "react";
-
-import ExibirNumero from "./components/ExibirNumero";
-import BotaoAumentar from "./components/BotaoAumentar";
-import BotaoDiminuir from "./components/BotaoDiminuir";
+import { useState, useEffect } from "react";
 
 function App() {
-  const [numero, setNumero] = useState(0);
+  const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    if (numero === 5) {
-      alert("Você chegou em 5!");
-    }
-  }, [numero]);
-
-  function aumentar() {
-    setNumero(numero + 1);
-  }
-
-  function diminuir() {
-    setNumero(numero - 1);
-  }
-
+    fetch("https://fakestoreapi.com/products")
+      .then((response) => response.json())
+      .then((data) => {
+        setProdutos(data);
+        setCarregando(false);
+      })
+      .catch(() => setCarregando(false));
+  }, []);
   return (
     <div>
-      <ExibirNumero numero={numero} />
-      <BotaoAumentar aumentar={aumentar} />
-      <BotaoDiminuir diminuir={diminuir} />
+      <h1>Lista de Produtos</h1>
+      {carregando && <p>Carregando...</p>}
+      {produtos.map((produto) => (
+        <div
+          key={produto.id}
+          style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}
+        >
+          <h3>{produto.title}</h3>
+          <p>R$ {produto.price}</p>
+        </div>
+      ))}
     </div>
   );
 }
