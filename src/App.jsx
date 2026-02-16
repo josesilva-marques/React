@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { buscarProdutos } from "./services/api";
+import ProductCard from "./components/ProductCard";
 
 function App() {
   const [produtos, setProdutos] = useState([]);
@@ -6,15 +8,9 @@ function App() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-    const buscarProdutos = async () => {
+    const carregar = async () => {
       try {
-        const response = await fetch("https://fakestoreapi.com/products");
-
-        if (!response.ok) {
-          throw new Error("Erro ao buscar produtos: ");
-        }
-
-        const data = await response.json();
+        const data = await buscarProdutos();
         setProdutos(data);
       } catch (error) {
         setErro(error.message);
@@ -23,7 +19,7 @@ function App() {
       }
     };
 
-    buscarProdutos();
+    carregar();
   }, []);
 
   return (
@@ -31,21 +27,13 @@ function App() {
       <h1>Lista de Produtos</h1>
       {carregando && <p>Carregando produtos...</p>}
       {erro && <p style={{ color: "red" }}>{erro}</p>}
-      {!carregando &&
-        !erro &&
-        produtos.map((produto) => (
-          <div
-            key={produto.id}
-            style={{
-              border: "1px solid #ccc",
-              margin: "10px",
-              padding: "10px",
-            }}
-          >
-            <h3>{produto.title}</h3>
-            <p>R$ {produto.price}</p>
-          </div>
-        ))}
+      {!carregando && !erro && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+          {produtos.map((produto) => (
+            <ProductCard key={produto.id} produto={produto} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
