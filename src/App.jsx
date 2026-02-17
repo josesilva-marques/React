@@ -1,26 +1,8 @@
-import { useState, useEffect } from "react";
-import { buscarProdutos } from "./services/api";
+import { useProdutos } from "./hooks/useProdutos";
 import ProductCard from "./components/ProductCard";
 
 function App() {
-  const [produtos, setProdutos] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
-
-  useEffect(() => {
-    const carregar = async () => {
-      try {
-        const data = await buscarProdutos();
-        setProdutos(data);
-      } catch (error) {
-        setErro(error.message);
-      } finally {
-        setCarregando(false);
-      }
-    };
-
-    carregar();
-  }, []);
+  const { produtos, carregando, erro } = useProdutos();
 
   return (
     <div>
@@ -28,7 +10,7 @@ function App() {
       {carregando && <p>Carregando produtos...</p>}
       {erro && <p style={{ color: "red" }}>{erro}</p>}
       {!carregando && !erro && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
           {produtos.map((produto) => (
             <ProductCard key={produto.id} produto={produto} />
           ))}
