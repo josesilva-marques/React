@@ -5,6 +5,7 @@ import ProductCard from "./components/ProductCard";
 function App() {
   const { produtos, carregando, erro } = useProdutos();
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("all");
+  const [busca, setBusca] = useState(""); // <-- ADICIONE ESTA LINHA
 
   const categorias = [
     "all",
@@ -14,10 +15,16 @@ function App() {
     "women's clothing",
   ];
 
-  const produtosFiltrados =
-    categoriaSelecionada === "all"
-      ? produtos
-      : produtos.filter((produto) => produto.category === categoriaSelecionada);
+  const produtosFiltrados = produtos
+    .filter(
+      (produto) =>
+        categoriaSelecionada === "all"
+          ? true
+          : produto.category === categoriaSelecionada, // <-- corrigido: era "produtos.category"
+    )
+    .filter((produto) =>
+      produto.title.toLowerCase().includes(busca.toLowerCase()),
+    );
 
   return (
     <div>
@@ -32,6 +39,13 @@ function App() {
           </button>
         ))}
       </div>
+      <input
+        type="text"
+        placeholder="Buscar produtos..."
+        value={busca}
+        onChange={(e) => setBusca(e.target.value)}
+        style={{ marginBottom: "20px", padding: "8px", width: "300px" }}
+      />
 
       <h1>Lista de Produtos</h1>
       {carregando && <p>Carregando produtos...</p>}
