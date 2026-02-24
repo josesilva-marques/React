@@ -1,4 +1,8 @@
-function ProductCard({ produto, adicionarAoCarrinho }) {
+import { useContext } from "react";
+import { CarrinhoContext } from "../context/CarrinhoContext";
+
+function ProductCard({ produto }) {
+  const { adicionarAoCarrinho } = useContext(CarrinhoContext);
   return (
     <div
       style={{

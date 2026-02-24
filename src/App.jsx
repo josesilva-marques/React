@@ -27,16 +27,26 @@ function App() {
       produto.title.toLowerCase().includes(busca.toLowerCase()),
     );
 
+  const [ordenacao, setOrdenacao] = useState("default");
+
+  // Ordenação
+  let produtosOrdenados = [...produtosFiltrados];
+  if (ordenacao === "menor") {
+    produtosOrdenados.sort((a, b) => a.price - b.price);
+  } else if (ordenacao === "maior") {
+    produtosOrdenados.sort((a, b) => b.price - a.price);
+  }
+
   // Paginação
   const produtosPorPagina = 6;
   const indiceFinal = paginaAtual * produtosPorPagina;
   const indiceInicial = indiceFinal - produtosPorPagina;
-  const produtosPaginados = produtosFiltrados.slice(indiceInicial, indiceFinal);
+  const produtosPaginados = produtosOrdenados.slice(indiceInicial, indiceFinal);
 
   // Resetar página ao mudar filtros
   useEffect(() => {
     setPaginaAtual(1);
-  }, [categoriaSelecionada, busca]);
+  }, [categoriaSelecionada, busca, ordenacao]);
 
   return (
     <div>
@@ -56,13 +66,24 @@ function App() {
       </div>
 
       {/* Campo de busca */}
-      <input
-        type="text"
-        placeholder="Buscar produtos..."
-        value={busca}
-        onChange={(e) => setBusca(e.target.value)}
-        style={{ marginBottom: "20px", padding: "8px", width: "300px" }}
-      />
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Buscar produtos..."
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          style={{ padding: "8px", width: "300px" }}
+        />
+        <select
+          value={ordenacao}
+          onChange={(e) => setOrdenacao(e.target.value)}
+          style={{ marginLeft: "10px", padding: "8px" }}
+        >
+          <option value="default">Ordenar</option>
+          <option value="menor">Menor preço</option>
+          <option value="maior">Maior preço</option>
+        </select>
+      </div>
 
       {/* Mensagens de carregamento/erro */}
       {carregando && <p>Carregando produtos...</p>}
