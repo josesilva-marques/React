@@ -1,8 +1,16 @@
 import { useContext } from "react";
 import { CarrinhoContext } from "../context/CarrinhoContext";
+import { useCallback } from "react";
 
 function ProductCard({ produto }) {
   const { adicionarAoCarrinho } = useContext(CarrinhoContext);
+  const handleAddToCart = useCallback(
+    (produto) => {
+      adicionarAoCarrinho(produto);
+    },
+    [adicionarAoCarrinho],
+  );
+  <ProductCard onAdd={handleAddToCart} />;
   return (
     <div
       style={{

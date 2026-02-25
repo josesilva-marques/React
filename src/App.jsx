@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useProdutos } from "./hooks/useProdutos";
 import ProductCard from "./components/ProductCard";
 
@@ -7,6 +7,7 @@ function App() {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("all");
   const [busca, setBusca] = useState("");
   const [paginaAtual, setPaginaAtual] = useState(1);
+  const [ordenacao, setOrdenacao] = useState("default"); // <-- movido para cima
 
   const categorias = [
     "all",
@@ -15,6 +16,29 @@ function App() {
     "men's clothing",
     "women's clothing",
   ];
+
+  const produtosProcessados = useMemo(() => {
+    let resultado = [...produtos];
+    // Filtro por categoria
+    if (categoriaSelecionada && categoriaSelecionada !== "all") {
+      resultado = resultado.filter(
+        (produto) => produto.category === categoriaSelecionada,
+      );
+    }
+    // Busca por texto
+    if (busca) {
+      resultado = resultado.filter((produto) =>
+        produto.title.toLowerCase().includes(busca.toLowerCase()),
+      );
+    }
+    // Ordenação por preço
+    if (ordenacao === "asc") {
+      resultado.sort((a, b) => a.price - b.price);
+    } else if (ordenacao === "desc") {
+      resultado.sort((a, b) => b.price - a.price);
+    }
+    return resultado;
+  }, [produtos, categoriaSelecionada, busca, ordenacao]);
 
   // Filtragem por categoria e busca
   const produtosFiltrados = produtos
@@ -26,8 +50,6 @@ function App() {
     .filter((produto) =>
       produto.title.toLowerCase().includes(busca.toLowerCase()),
     );
-
-  const [ordenacao, setOrdenacao] = useState("default");
 
   // Ordenação
   let produtosOrdenados = [...produtosFiltrados];
@@ -65,7 +87,7 @@ function App() {
         ))}
       </div>
 
-      {/* Campo de busca */}
+      {/* Campo de busca e ordenação */}
       <div style={{ marginBottom: "20px" }}>
         <input
           type="text"
