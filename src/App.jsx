@@ -1,140 +1,32 @@
-import { useEffect, useState, useMemo } from "react";
 import { useProdutos } from "./hooks/useProdutos";
-import ProductCard from "./components/ProductCard";
 
 function App() {
-  const { produtos, carregando, erro } = useProdutos();
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState("all");
-  const [busca, setBusca] = useState("");
-  const [paginaAtual, setPaginaAtual] = useState(1);
-  const [ordenacao, setOrdenacao] = useState("default"); // <-- movido para cima
+  const { data: produtos, isLoading, isError, error } = useProdutos();
 
-  const categorias = [
-    "all",
-    "electronics",
-    "jewelery",
-    "men's clothing",
-    "women's clothing",
-  ];
-
-  const produtosProcessados = useMemo(() => {
-    let resultado = [...produtos];
-    // Filtro por categoria
-    if (categoriaSelecionada && categoriaSelecionada !== "all") {
-      resultado = resultado.filter(
-        (produto) => produto.category === categoriaSelecionada,
-      );
-    }
-    // Busca por texto
-    if (busca) {
-      resultado = resultado.filter((produto) =>
-        produto.title.toLowerCase().includes(busca.toLowerCase()),
-      );
-    }
-    // Ordenação por preço
-    if (ordenacao === "asc") {
-      resultado.sort((a, b) => a.price - b.price);
-    } else if (ordenacao === "desc") {
-      resultado.sort((a, b) => b.price - a.price);
-    }
-    return resultado;
-  }, [produtos, categoriaSelecionada, busca, ordenacao]);
-
-  // Filtragem por categoria e busca
-  const produtosFiltrados = produtos
-    .filter((produto) =>
-      categoriaSelecionada === "all"
-        ? true
-        : produto.category === categoriaSelecionada,
-    )
-    .filter((produto) =>
-      produto.title.toLowerCase().includes(busca.toLowerCase()),
-    );
-
-  // Ordenação
-  let produtosOrdenados = [...produtosFiltrados];
-  if (ordenacao === "menor") {
-    produtosOrdenados.sort((a, b) => a.price - b.price);
-  } else if (ordenacao === "maior") {
-    produtosOrdenados.sort((a, b) => b.price - a.price);
-  }
-
-  // Paginação
-  const produtosPorPagina = 6;
-  const indiceFinal = paginaAtual * produtosPorPagina;
-  const indiceInicial = indiceFinal - produtosPorPagina;
-  const produtosPaginados = produtosOrdenados.slice(indiceInicial, indiceFinal);
-
-  // Resetar página ao mudar filtros
-  useEffect(() => {
-    setPaginaAtual(1);
-  }, [categoriaSelecionada, busca, ordenacao]);
+  if (isLoading) return <p>Carregando...</p>;
+  if (isError) return <p>Erro: {error.message}</p>;
 
   return (
     <div>
-      <h1>Lista de Produtos</h1>
+      <h1>Catálogo</h1>
 
-      {/* Botões de categoria */}
-      <div style={{ marginBottom: "20px" }}>
-        {categorias.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setCategoriaSelecionada(cat)}
-            style={{ marginRight: "10px" }}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "20px",
+        }}
+      >
+        {produtos.map((produto) => (
+          <div
+            key={produto.id}
+            style={{ border: "1px solid #ccc", padding: "10px" }}
           >
-            {cat}
-          </button>
+            <h3>{produto.title}</h3>
+            <img src={produto.image} alt={produto.title} width="100" />
+            <p>R$ {produto.price}</p>
+          </div>
         ))}
-      </div>
-
-      {/* Campo de busca e ordenação */}
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          type="text"
-          placeholder="Buscar produtos..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-          style={{ padding: "8px", width: "300px" }}
-        />
-        <select
-          value={ordenacao}
-          onChange={(e) => setOrdenacao(e.target.value)}
-          style={{ marginLeft: "10px", padding: "8px" }}
-        >
-          <option value="default">Ordenar</option>
-          <option value="menor">Menor preço</option>
-          <option value="maior">Maior preço</option>
-        </select>
-      </div>
-
-      {/* Mensagens de carregamento/erro */}
-      {carregando && <p>Carregando produtos...</p>}
-      {erro && <p style={{ color: "red" }}>{erro}</p>}
-
-      {/* Lista de produtos */}
-      {!carregando && !erro && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-          {produtosPaginados.map((produto) => (
-            <ProductCard key={produto.id} produto={produto} />
-          ))}
-        </div>
-      )}
-
-      {/* Paginação */}
-      <div style={{ marginTop: "20px" }}>
-        <button
-          onClick={() => setPaginaAtual(paginaAtual - 1)}
-          disabled={paginaAtual === 1}
-        >
-          Anterior
-        </button>
-        <span style={{ margin: "0 10px" }}>Página {paginaAtual}</span>
-        <button
-          onClick={() => setPaginaAtual(paginaAtual + 1)}
-          disabled={indiceFinal >= produtosFiltrados.length}
-        >
-          Próxima
-        </button>
       </div>
     </div>
   );

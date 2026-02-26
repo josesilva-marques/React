@@ -1,0 +1,15 @@
+{
+  "produtos": [
+    { "id": 1, "nome": "Notebook Dell" },
+    { "id": 2, "nome": "Mouse Logitech" },
+    { "id": 3, "nome": "Teclado Mecânico" }
+  ],
+  "categorias": [
+    { "id": 1, "nome": "Computadores" },
+    { "id": 2, "nome": "Periféricos" }
+  ],
+  "usuarios": [
+    { "id": 1, "nome": "Maria", "email": "maria@example.com" },
+    { "id": 2, "nome": "João", "email": "joao@example.com" }
+  ]
+}
