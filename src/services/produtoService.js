@@ -1,5 +1,11 @@
-export async function buscarProdutos() {
-  const response = await fetch("https://fakestoreapi.com/products");
+export async function buscarProdutos(categoria) {
+  let url = "https://fakestoreapi.com/products";
+
+  if (categoria && categoria !== "all") {
+    url = `https://fakestoreapi.com/products/category/${categoria}`;
+  }
+
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error("Erro ao buscar produtos");

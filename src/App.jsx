@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useProdutos } from "./hooks/useProdutos";
 
 function App() {
-  const { data: produtos, isLoading, isError, error } = useProdutos();
+  const [categoria, setCategoria] = useState("all");
+  const { data: produtos, isLoading, isError, error } = useProdutos(categoria);
 
   if (isLoading) return <p>Carregando...</p>;
   if (isError) return <p>Erro: {error.message}</p>;
@@ -27,6 +29,17 @@ function App() {
             <p>R$ {produto.price}</p>
           </div>
         ))}
+      </div>
+      <div style={{ marginBottom: "20px" }}>
+        <button onClick={() => setCategoria("all")}>Todos</button>
+        <button onClick={() => setCategoria("electronics")}>Eletrônicos</button>
+        <button onClick={() => setCategoria("jewelery")}>Joias</button>
+        <button onClick={() => setCategoria("men's clothing")}>
+          Masculino
+        </button>
+        <button onClick={() => setCategoria("women's clothing")}>
+          Feminino
+        </button>
       </div>
     </div>
   );
