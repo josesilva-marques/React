@@ -1,23 +1,11 @@
-import { useContext } from "react";
-import { CarrinhoContext } from "../context/CarrinhoContext";
-import { useCallback } from "react";
-
 function ProductCard({ produto }) {
-  const { adicionarAoCarrinho } = useContext(CarrinhoContext);
-  const handleAddToCart = useCallback(
-    (produto) => {
-      adicionarAoCarrinho(produto);
-    },
-    [adicionarAoCarrinho],
-  );
-  <ProductCard onAdd={handleAddToCart} />;
   return (
     <div
       style={{
-        border: "1px solid #ddd",
+        border: "1px solid #ccc",
         padding: "10px",
         borderRadius: "8px",
-        width: "200px",
+        textAlign: "center",
       }}
     >
       <img
@@ -25,9 +13,10 @@ function ProductCard({ produto }) {
         alt={produto.title}
         style={{ width: "100px", height: "100px", objectFit: "contain" }}
       />
-      <h4>{produto.title}</h4>
-      <p>R${produto.price}</p>
-      <button onClick={() => adicionarAoCarrinho(produto)}>Comprar</button>
+
+      <h4 style={{ fontSize: "14px" }}>{produto.title}</h4>
+
+      <p style={{ fontWeight: "bold" }}>R$ {produto.price}</p>
     </div>
   );
 }
