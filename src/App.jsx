@@ -5,7 +5,7 @@ import ProductCard from "./components/ProductCard";
 function App() {
   const [categoria, setCategoria] = useState("all");
   const [pagina, setPagina] = useState(1);
-  const { data: produtos, isLoading, isError, error } = useProdutos(categoria);
+  const { data, isLoading, isError, error } = useProdutos(categoria);
 
   const handleCategoriaChange = (novaCategoria) => {
     setCategoria(novaCategoria);
@@ -13,8 +13,15 @@ function App() {
   };
 
   if (isLoading) return <p>Carregando...</p>;
-  if (isError) return <p>Erro: {error.message}</p>;
-
+  if (isError) {
+    return (
+      <div>
+        <p>Ocorreu um erro ao carregar os produtos.</p>
+        <p>{error.message}</p>
+      </div>
+    );
+  }
+  const produtos = data || [];
   const produtosPorPagina = 6;
 
   const inicio = (pagina - 1) * produtosPorPagina;
@@ -38,6 +45,7 @@ function App() {
           <ProductCard key={produto.id} produto={produto} />
         ))}
       </div>
+      {produtos.length === 0 && <p>Nenhum produto encontrado.</p>}
 
       <div style={{ marginTop: "20px", textAlign: "center" }}>
         <button
