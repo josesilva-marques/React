@@ -11,4 +11,19 @@ export async function buscarProdutos(categoria) {
   }
 
   return response.json();
+
+  if (isLoading) {
+    return <p>Carregando produtos...</p>;
+  }
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(3, 1fr)",
+      gap: "20px",
+    }}
+  >
+    {data.map((produto) => (
+      <ProductCard key={produto.id} produto={produto} />
+    ))}
+  </div>;
 }
