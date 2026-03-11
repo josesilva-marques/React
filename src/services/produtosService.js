@@ -1,29 +1,33 @@
-import { API_URL } from "../api/api";
-export async function buscarProdutos(categoria) {
-  const url = categoria
-    ? `${API_URL}/products/category/${categoria}`
-    : `${API_URL}/products`;
+// src/services/produtosService.js
 
-  const response = await fetch(url);
+export async function adicionarCarrinho(produto) {
+  // Exemplo de chamada a API
+  // const response = await fetch("/api/carrinho", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(produto),
+  // });
+  // return response.json();
 
-  if (!response.ok) {
-    throw new Error("Erro ao buscar produtos");
-  }
+  // Para teste local
+  return Promise.resolve(produto);
+}
 
-  return response.json();
-
-  if (isLoading) {
-    return <p>Carregando produtos...</p>;
-  }
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(3, 1fr)",
-      gap: "20px",
-    }}
-  >
-    {data.map((produto) => (
-      <ProductCard key={produto.id} produto={produto} />
-    ))}
-  </div>;
+export async function buscarProdutos(categoria, pagina) {
+  return Promise.resolve([
+    {
+      id: 1,
+      nome: "Produto A",
+      categoria,
+      preco: 99.90,
+      imagem: "https://via.placeholder.com/150"
+    },
+    {
+      id: 2,
+      nome: "Produto B",
+      categoria,
+      preco: 149.90,
+      imagem: "https://via.placeholder.com/150"
+    }
+  ]);
 }

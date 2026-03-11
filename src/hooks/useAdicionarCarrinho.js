@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { adicionarCarrinho } from "../services/produtoService";
+import { adicionarCarrinho } from "../services/produtosService"; // corrigido: produtosService
 
 export function useAdicionarCarrinho() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: adicionarCarrinho,
 
@@ -11,8 +13,9 @@ export function useAdicionarCarrinho() {
     onError: (error) => {
       console.log("Erro ao adicionar produto", error);
     },
-    onSucess: () => {
+    onSuccess: () => {
       console.log("Produto confirmado no carrinho");
+      queryClient.invalidateQueries(["carrinho"]);
     },
   });
 }
