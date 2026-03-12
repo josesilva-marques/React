@@ -1,21 +1,30 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { adicionarCarrinho } from "../services/produtosService"; // corrigido: produtosService
+import { API_URL } from "../api/api";
 
-export function useAdicionarCarrinho() {
-  const queryClient = useQueryClient();
+export async function buscarProdutos(categoria) {
+  const url = categoria
+    ? `${API_URL}/products/category/${categoria}`
+    : `${API_URL}/products`;
 
-  return useMutation({
-    mutationFn: adicionarCarrinho,
+  const response = await fetch(url);
 
-    onMutate: async (novoProduto) => {
-      console.log("Produto adicionado otimisticamente", novoProduto);
-    },
-    onError: (error) => {
-      console.log("Erro ao adicionar produto", error);
-    },
-    onSuccess: () => {
-      console.log("Produto confirmado no carrinho");
-      queryClient.invalidateQueries(["carrinho"]);
-    },
+  if (!response.ok) {
+    throw new Error("Erro ao buscar produtos");
+  }
+
+  return response.json();
+}
+
+// Nova função para adicionar ao carrinho
+export async function adicionarCarrinho(produto) {
+  const response = await fetch(`${API_URL}/cart`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(produto),
   });
+
+  if (!response.ok) {
+    throw new Error("Erro ao adicionar produto ao carrinho");
+  }
+
+  return response.json();
 }

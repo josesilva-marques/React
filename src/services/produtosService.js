@@ -1,33 +1,30 @@
-// src/services/produtosService.js
+import { API_URL } from "../api/api";
 
-export async function adicionarCarrinho(produto) {
-  // Exemplo de chamada a API
-  // const response = await fetch("/api/carrinho", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(produto),
-  // });
-  // return response.json();
+export async function buscarProdutos(categoria) {
+  const url = categoria
+    ? `${API_URL}/products/category/${categoria}`
+    : `${API_URL}/products`;
 
-  // Para teste local
-  return Promise.resolve(produto);
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("Erro ao buscar produtos");
+  }
+
+  return response.json();
 }
 
-export async function buscarProdutos(categoria, pagina) {
-  return Promise.resolve([
-    {
-      id: 1,
-      nome: "Produto A",
-      categoria,
-      preco: 99.90,
-      imagem: "https://via.placeholder.com/150"
-    },
-    {
-      id: 2,
-      nome: "Produto B",
-      categoria,
-      preco: 149.90,
-      imagem: "https://via.placeholder.com/150"
-    }
-  ]);
+// Nova função para adicionar ao carrinho
+export async function adicionarCarrinho(produto) {
+  const response = await fetch(`${API_URL}/cart`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(produto),
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao adicionar produto ao carrinho");
+  }
+
+  return response.json();
 }

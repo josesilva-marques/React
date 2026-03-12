@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { buscarProdutos } from "../services/produtosService"; // corrigido: produtosService
+import { buscarProdutos } from "../services/produtosService";
 
-export function useProdutos(categoria, pagina) {
+export function useProdutos(categoria) {
   return useQuery({
-    queryKey: ["produtos", categoria, pagina],
-    queryFn: () => buscarProdutos(categoria, pagina),
+    queryKey: ["produtos", categoria],
+    queryFn: async () => {
+      return await buscarProdutos(categoria);
+    },
   });
 }

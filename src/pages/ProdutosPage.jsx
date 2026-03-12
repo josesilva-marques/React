@@ -1,39 +1,47 @@
 import { useState } from "react";
-import { useProdutos } from "..//hooks/useProdutos";
-import skeletonCard from "../components/skeletonCard";
+import { useProdutos } from "../hooks/useProdutos";
+import ProductCard from "../components/ProductCard";
+import SkeletonCard from "../components/SkeletonCard";
 
-const [categoria, setCategoria] = useState("");
-const { data, isLoading, isError } = useProdutos(categoria);
+function ProdutosPage() {
+  const [categoria, setCategoria] = useState("");
 
-<div style={{ marginBottom: "20px" }}>
-  <button onClick={() => setCategoria("")}>Todos</button>
-  <button onClick={() => setCategoria("electronics")}>Eletrônicos</button>
-  <button onClick={() => setCategoria("jewelery")}>Joias</button>
-  <button onClick={() => setCategoria("men's clothing")}>Masculino</button>
-  <button onClick={() => setCategoria("women's clothing")}>Feminino</button>
-</div>;
-export function ProdutosPage() {
-  return (
-    <div>
-      <h1>Catálogo de Produtos</h1>
-    </div>
-  );
-}
-if (isLoading){
-  return (
-    <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat (3,1fr)",
-      gap: "20px"
-    }}
-    >
-      {Array.from({ lenght: 6}).map((_, index)) =>(
-        <skeletonCard key={index} />
+  const { data, isLoading, isError } = useProdutos(categoria);
 
-      ))
+  if (isLoading) {
+    // Renderiza skeletons enquanto carrega
+    return (
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: "20px",
+        }}
+      >
+        {Array.from({ length: 8 }).map((_, index) => (
+          <SkeletonCard key={index} />
+        ))}
       </div>
     );
+  }
+
+  if (isError) {
+    return <p>Erro ao carregar produtos.</p>;
+  }
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gap: "20px",
+      }}
+    >
+      {data?.map((produto) => (
+        <ProductCard key={produto.id} produto={produto} />
+      ))}
+    </div>
+  );
 }
 
 export default ProdutosPage;
